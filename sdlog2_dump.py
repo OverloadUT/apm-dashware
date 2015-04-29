@@ -170,6 +170,7 @@ class SDLog2Parser:
         if len(self.__msg_filter) == 0:
             for msg_name in self.__msg_names:
                 self.__msg_filter.append((msg_name, "*"))
+        self.__csv_columns.append("GLOBAL_TimeMS")
         for msg_name, show_fields in self.__msg_filter:
             if show_fields == "*":
                 show_fields = self.__msg_labels.get(msg_name, [])
@@ -333,6 +334,11 @@ def _main():
                     v = None
                     if full_label in row:
                         v = row[full_label]
+
+                    if full_label == "GLOBAL_TimeMS":
+                        for col, val in row.items():
+                            if "TimeMS" in col and col != "GPS_TimeMS":
+                                v = val
 
                     if v is None:
                         v = options.csv_null
