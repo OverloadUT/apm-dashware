@@ -1,0 +1,1 @@
+sdlog2_dump.py "C:\Users\Greg\Dropbox\Flying\RC Flights\Solo Logs\log40.bin" -e -f solo40.csv -m GPS -m ATT -m NTUN -m CTUN -m MODE -m CURR
