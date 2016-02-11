@@ -22,6 +22,7 @@ class SDLog2Parser:
     FORMAT_TO_STRUCT = {
         "b": ("b", None),
         "B": ("B", None),
+        "d": ("d", None), # TODO: not sure what this new "d" format represents. It's used in messages GRAW, GRXH, and GRXS
         "h": ("h", None),
         "H": ("H", None),
         "i": ("i", None),
@@ -184,7 +185,8 @@ class SDLog2Parser:
                     msg_struct += f[0]
                     msg_mults.append(f[1])
                 except KeyError as e:
-                    raise Exception("Unsupported format char: %s in message %s (%i)" % (c, msg_name, msg_type))
+                    print("WARNING: Unsupported format char: %s in message %s (%i)" % (c, msg_name, msg_type))
+                    # raise Exception("Unsupported format char: %s in message %s (%i)" % (c, msg_name, msg_type))
             msg_struct = "<" + msg_struct  # force little-endian
             self.__msg_descrs[msg_type] = (msg_length, msg_name, msg_format, msg_labels, msg_struct, msg_mults)
             self.__msg_labels[msg_name] = msg_labels
@@ -229,6 +231,8 @@ class SDLog2Parser:
                     self.__row_data[msg_name + "_" + label] = data[i]
                 if label == "TimeMS":
                     msg_time = data[i]
+                if label == "TimeUS":
+                    msg_time = data[i] / 1000
 
             if msg_time != self.__last_store_row_time:
                 self.__store_row()

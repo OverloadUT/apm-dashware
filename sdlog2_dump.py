@@ -101,6 +101,8 @@ def _main():
                         for col, val in row.items():
                             if "TimeMS" in col and col != "GPS_TimeMS":
                                 v = val
+                            elif "TimeUS" in col and col != "GPS_TimeMS":
+                                v = val / 1000
 
                     if v is None:
                         v = options.csv_null
